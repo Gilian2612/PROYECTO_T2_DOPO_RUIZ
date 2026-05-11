@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=MenuGUI
+comment0.text=\r\n\ Pantalla\ del\ menu\ principal\ de\ The\ DOPO\ Hardest\ Game.\r\n\ Muestra\ un\ banner\ visual,\ y\ los\ botones\ de\ jugar\ y\ salir.\r\n\ Contiene\ el\ metodo\ main()\ como\ punto\ de\ entrada\ de\ la\ aplicacion.\r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=
+comment1.target=MenuGUI()
+comment1.text=\r\n\ Crea\ y\ muestra\ el\ menu\ principal\ con\ el\ banner\ visual.\r\n
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=e
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.params=
+comment4.target=javax.swing.ImageIcon\ loadBanner()
+comment4.text=\r\n\ Carga\ el\ banner\ desde\ la\ carpeta\ sprays\ y\ lo\ escala\ para\ el\ menu.\r\n\ Busca\ el\ archivo\ en\ "sprays/BY_W_R.png"\ relativo\ al\ directorio\ de\ ejecucion.\r\n\r\n\ @return\ ImageIcon\ escalado\ o\ null\ si\ no\ se\ encuentra\ la\ imagen\r\n
+comment5.params=
+comment5.target=void\ showModeSelection()
+comment5.text=\r\n\ Abre\ la\ pantalla\ de\ seleccion\ de\ modo\ de\ juego.\r\n
+comment6.params=args
+comment6.target=void\ main(java.lang.String[])
+comment6.text=\r\n\ Punto\ de\ entrada\ principal\ de\ la\ aplicacion.\r\n\r\n\ @param\ args\ argumentos\ de\ linea\ de\ comandos\ (no\ utilizados)\r\n
+comment7.params=
+comment7.target=void\ run()
+numComments=8

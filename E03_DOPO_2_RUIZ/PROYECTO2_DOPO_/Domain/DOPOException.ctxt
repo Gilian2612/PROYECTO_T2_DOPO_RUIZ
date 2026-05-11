@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=DOPOException
+comment0.text=\r\n\ Excepcion\ personalizada\ para\ errores\ del\ juego\ The\ DOPO\ Hardest\ Game.\r\n\ Define\ mensajes\ constantes\ para\ los\ distintos\ tipos\ de\ error\ que\ pueden\ ocurrir.\r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=message
+comment1.target=DOPOException(java.lang.String)
+comment1.text=\r\n\ Crea\ una\ excepcion\ con\ el\ mensaje\ indicado.\r\n\r\n\ @param\ message\ mensaje\ descriptivo\ del\ error\r\n
+numComments=2

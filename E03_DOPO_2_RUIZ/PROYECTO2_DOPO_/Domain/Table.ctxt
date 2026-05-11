@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Table
+comment0.text=\r\n\ Representa\ el\ tablero\ de\ juego\ con\ zonas\ seguras\ y\ paredes.\r\n\ Extiende\ Rectangle\ ya\ que\ el\ tablero\ en\ si\ es\ un\ area\ rectangular.\r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=rows\ cols
+comment1.target=Table(int,\ int)
+comment1.text=\r\n\ Crea\ el\ tablero\ de\ juego\ con\ las\ dimensiones\ dadas.\r\n\ La\ posicion\ del\ rectangulo\ es\ (0,0)\ y\ su\ tamano\ coincide\ con\ rows\ x\ cols.\r\n\r\n\ @param\ rows\ numero\ de\ filas\r\n\ @param\ cols\ numero\ de\ columnas\r\n
+comment2.params=
+comment2.target=int\ getRows()
+comment2.text=\r\n\ Retorna\ el\ numero\ de\ filas.\r\n\ @return\ filas\ del\ tablero\r\n
+comment3.params=
+comment3.target=int\ getCols()
+comment3.text=\r\n\ Retorna\ el\ numero\ de\ columnas.\r\n\ @return\ columnas\ del\ tablero\r\n
+comment4.params=px\ py
+comment4.target=boolean\ inBounds(double,\ double)
+comment4.text=\r\n\ Verifica\ si\ la\ posicion\ (px,\ py)\ esta\ dentro\ de\ los\ limites\ del\ tablero.\r\n\r\n\ @param\ px\ coordenada\ x\r\n\ @param\ py\ coordenada\ y\r\n\ @return\ true\ si\ la\ posicion\ esta\ dentro\ del\ tablero\r\n
+comment5.params=row\ col\ isWall
+comment5.target=void\ setWall(int,\ int,\ boolean)
+comment5.text=\r\n\ Establece\ o\ quita\ una\ pared\ en\ la\ posicion\ indicada.\r\n\r\n\ @param\ row\ fila\ de\ la\ pared\r\n\ @param\ col\ columna\ de\ la\ pared\r\n\ @param\ isWall\ true\ para\ colocar\ pared,\ false\ para\ quitarla\r\n
+comment6.params=row\ col
+comment6.target=boolean\ isWall(int,\ int)
+comment6.text=\r\n\ Verifica\ si\ hay\ una\ pared\ en\ la\ posicion\ indicada.\r\n\ Las\ posiciones\ fuera\ de\ los\ limites\ se\ consideran\ pared.\r\n\r\n\ @param\ row\ fila\ a\ verificar\r\n\ @param\ col\ columna\ a\ verificar\r\n\ @return\ true\ si\ hay\ pared\ o\ esta\ fuera\ de\ limites\r\n
+numComments=7

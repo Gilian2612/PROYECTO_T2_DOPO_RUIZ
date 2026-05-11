@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Zone
+comment0.text=\r\n\ Representa\ una\ zona\ segura\ en\ el\ tablero\ de\ juego.\r\n\ Tipos\:\ INITIAL\ (inicio),\ INTERMEDIATE\ (checkpoint),\ FINAL\ (meta).\r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=x\ y\ height\ broad\ type
+comment1.target=Zone(int,\ int,\ int,\ int,\ Zone.ZoneType)
+comment1.text=\r\n\ Crea\ una\ zona\ segura\ con\ posicion,\ dimensiones\ y\ tipo.\r\n\r\n\ @param\ x\ columna\ inicial\ de\ la\ zona\r\n\ @param\ y\ fila\ inicial\ de\ la\ zona\r\n\ @param\ height\ alto\ en\ celdas\r\n\ @param\ broad\ ancho\ en\ celdas\r\n\ @param\ type\ tipo\ de\ zona\ segura\r\n
+comment2.params=
+comment2.target=Zone.ZoneType\ getType()
+comment2.text=\r\n\ Retorna\ el\ tipo\ de\ zona\ segura.\r\n\ @return\ tipo\ de\ zona\r\n
+comment3.params=col\ row
+comment3.target=boolean\ containsCell(int,\ int)
+comment3.text=\r\n\ Verifica\ si\ la\ celda\ (col,\ row)\ esta\ dentro\ de\ esta\ zona.\r\n\r\n\ @param\ col\ columna\ a\ verificar\r\n\ @param\ row\ fila\ a\ verificar\r\n\ @return\ true\ si\ la\ celda\ esta\ dentro\ de\ la\ zona\r\n
+numComments=4

@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Pattern
+comment0.text=\r\n\ Define\ un\ patron\ de\ movimiento\ para\ enemigos\ tipo\ patrullero.\r\n\ Consiste\ en\ una\ secuencia\ de\ puntos\ de\ ruta\ que\ el\ enemigo\ recorre\ en\ bucle.\r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=name\ route
+comment1.target=Pattern(java.lang.String,\ double[])
+comment1.text=\r\n\ Crea\ un\ patron\ con\ los\ waypoints\ dados.\r\n\r\n\ @param\ name\ nombre\ descriptivo\ del\ patron\r\n\ @param\ route\ coordenadas\ alternadas\ x,\ y\ de\ cada\ punto\r\n
+comment2.params=
+comment2.target=double[]\ getRoute()
+comment2.text=\r\n\ Retorna\ la\ ruta\ del\ patron.\r\n\ @return\ arreglo\ de\ coordenadas\ [x1,\ y1,\ x2,\ y2,\ ...]\r\n
+comment3.params=
+comment3.target=java.lang.String\ getName()
+comment3.text=\r\n\ Retorna\ el\ nombre\ del\ patron.\r\n\ @return\ nombre\ descriptivo\r\n
+comment4.params=cx\ cy\ radius
+comment4.target=Pattern\ square(double,\ double,\ double)
+comment4.text=\r\n\ Crea\ un\ patron\ cuadrado\ alrededor\ del\ centro\ (cx,\ cy)\ con\ el\ radio\ dado.\r\n\r\n\ @param\ cx\ centro\ horizontal\r\n\ @param\ cy\ centro\ vertical\r\n\ @param\ radius\ radio\ del\ cuadrado\r\n\ @return\ patron\ con\ ruta\ cuadrada\r\n
+comment5.params=y\ x1\ x2
+comment5.target=Pattern\ horizontal(double,\ double,\ double)
+comment5.text=\r\n\ Crea\ un\ patron\ horizontal\ entre\ dos\ puntos.\r\n\r\n\ @param\ y\ fila\ del\ movimiento\r\n\ @param\ x1\ columna\ de\ inicio\r\n\ @param\ x2\ columna\ de\ fin\r\n\ @return\ patron\ con\ ruta\ horizontal\r\n
+comment6.params=x\ y1\ y2
+comment6.target=Pattern\ vertical(double,\ double,\ double)
+comment6.text=\r\n\ Crea\ un\ patron\ vertical\ entre\ dos\ puntos.\r\n\r\n\ @param\ x\ columna\ del\ movimiento\r\n\ @param\ y1\ fila\ de\ inicio\r\n\ @param\ y2\ fila\ de\ fin\r\n\ @return\ patron\ con\ ruta\ vertical\r\n
+numComments=7

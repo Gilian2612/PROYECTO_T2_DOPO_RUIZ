@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=DOPOButton
+comment0.text=\r\n\ Boton\ personalizado\ para\ The\ DOPO\ Hardest\ Game.\r\n\ Extiende\ JButton\ aplicando\ el\ estilo\ visual\ del\ juego\ de\ forma\ uniforme.\r\n\ Todas\ las\ pantallas\ del\ juego\ usan\ esta\ clase\ para\ mantener\ consistencia\ visual\r\nEn\ caso\ de\ que\ se\ llegue\ a\ necesitar\ cambiar\ algo\ del\ funcionamiento\ de\ los\ botones\ \r\nse\ puede\ hacer\ de\ manera\ general\ desde\ esta\ clase\ \r\n\r\n\ @author\ William\ Santiago\ Ruiz\ Medina\r\n\ @version\ 2.0\ 2026-1\r\n
+comment1.params=text
+comment1.target=DOPOButton(java.lang.String)
+comment1.text=\r\n\ Crea\ un\ boton\ con\ el\ texto\ dado\ y\ dimensiones\ por\ defecto\ (140x40).\r\n\r\n\ @param\ text\ texto\ a\ mostrar\ en\ el\ boton\r\n
+comment2.params=text\ width\ height
+comment2.target=DOPOButton(java.lang.String,\ int,\ int)
+comment2.text=\r\n\ Crea\ un\ boton\ con\ el\ texto\ y\ dimensiones\ personalizadas.\r\n\r\n\ @param\ text\ texto\ a\ mostrar\ en\ el\ boton\r\n\ @param\ width\ ancho\ del\ boton\ en\ pixeles\r\n\ @param\ height\ alto\ del\ boton\ en\ pixeles\r\n
+comment3.params=width\ height
+comment3.target=void\ applyStyle(int,\ int)
+comment3.text=\r\n\ Aplica\ el\ estilo\ visual\ del\ juego\ al\ boton.\r\n\r\n\ @param\ width\ ancho\ deseado\r\n\ @param\ height\ alto\ deseado\r\n
+numComments=4
