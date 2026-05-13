@@ -1,5 +1,4 @@
 package Domain;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,7 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 /**
  * Controlador principal de logica del juego The DOPO Hardest Game.
  * Gestiona el estado del juego: jugadores, enemigos, monedas, muertes,
@@ -20,14 +18,9 @@ import java.io.IOException;
  * @version 2.0 2026-1
  */
 public class worldHardestGame implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
     /** Modalidades de juego disponibles. */
     public enum GameMode { PLAYER, PVP, PVM }
-
-    /** Perfiles de maquina para modo PvM. */
-    public enum MachineProfile { RANDOM, EXPERT }
 
     private GameMode mode;
     private Level currentLevel;
@@ -35,17 +28,15 @@ public class worldHardestGame implements Serializable {
     private int currentLevelIndex;
     private Player player1;
     private Player player2;
-    private MachineProfile machineProfile;
     private boolean paused;
     private boolean gameOver;
     private int timeRemaining;
     private transient Random random;
-
     /**
-     * Crea un nuevo juego con el modo y skin dados.
+     * Crea un nuevo juego con el modo y color dados.
      *
      * @param mode modalidad de juego
-     * @param skin1 skin del jugador 1
+     * @param skin1 color del jugador 1
      */
     public worldHardestGame(GameMode mode, Player.Skin skin1) {
         this.mode = mode;
@@ -54,9 +45,8 @@ public class worldHardestGame implements Serializable {
         this.gameOver = false;
         this.levels = new ArrayList<>();
 
+        // Por ahora solo el nivel 1 esta disponible para la entrega actual.
         levels.add(Level.createClassicLevel1());
-        levels.add(Level.createLevel2());
-        levels.add(Level.createLevel3());
 
         this.currentLevelIndex = 0;
         this.currentLevel = levels.get(0);
@@ -65,12 +55,11 @@ public class worldHardestGame implements Serializable {
 
         this.timeRemaining = currentLevel.getTimeLimit();
     }
-
     /**
-     * Constructor para modo PvP con dos skins.
+     * Constructor para modo PvP con dos colores.
      *
-     * @param skin1 skin del jugador 1
-     * @param skin2 skin del jugador 2
+     * @param skin1 color del jugador 1
+     * @param skin2 color del jugador 2
      */
     public worldHardestGame(Player.Skin skin1, Player.Skin skin2) {
         this(GameMode.PVP, skin1);
@@ -78,23 +67,21 @@ public class worldHardestGame implements Serializable {
     }
 
     /**
-     * Constructor para modo PvM con perfil de maquina.
+     * Constructor para modo PvM.
+     * La maquina usa movimiento aleatorio.
      *
-     * @param skin1 skin del jugador 1
-     * @param profile perfil de la maquina (RANDOM o EXPERT)
+     * @param skin1 color del jugador 1
      */
-    public worldHardestGame(Player.Skin skin1, MachineProfile profile) {
+    public worldHardestGame(Player.Skin skin1) {
         this(GameMode.PVM, skin1);
-        this.machineProfile = profile;
-        player2 = new Player(currentLevel.getEndX(), currentLevel.getEndY(), Player.Skin.BLINKY);
-        player2.setName("Machine");
+        player2 = new Player(currentLevel.getEndX(), currentLevel.getEndY(), Player.Skin.ROJO);
     }
 
     /**
-     * Constructor por defecto para compatibilidad (un jugador, Blinky).
+     * Constructor por defecto para compatibilidad, un jugador, rojo.
      */
     public worldHardestGame() {
-        this(GameMode.PLAYER, Player.Skin.BLINKY);
+        this(GameMode.PLAYER, Player.Skin.ROJO);
     }
 
     /**
@@ -117,12 +104,13 @@ public class worldHardestGame implements Serializable {
         player1 = new Player(currentLevel.getStartX(), currentLevel.getStartY(), player1.getOriginalSkin());
 
         if (mode == GameMode.PVP || mode == GameMode.PVM) {
-            Player.Skin s2 = Player.Skin.BLINKY;
+            Player.Skin s2 = Player.Skin.ROJO;
             if (player2 != null) {
                 s2 = player2.getOriginalSkin();
             }
             player2 = new Player(currentLevel.getEndX(), currentLevel.getEndY(), s2);
         }
+
         timeRemaining = currentLevel.getTimeLimit();
         gameOver = false;
     }
@@ -135,6 +123,7 @@ public class worldHardestGame implements Serializable {
         if (paused || gameOver) {
             return;
         }
+
         Table table = currentLevel.getTable();
         List<Enemy> toRemove = new ArrayList<>();
 
@@ -147,6 +136,7 @@ public class worldHardestGame implements Serializable {
                 }
             }
         }
+
         currentLevel.getEnemies().removeAll(toRemove);
     }
 
@@ -160,6 +150,7 @@ public class worldHardestGame implements Serializable {
         if (paused || gameOver) {
             return;
         }
+
         player1.move(dx, dy, currentLevel.getTable());
     }
 
@@ -173,85 +164,30 @@ public class worldHardestGame implements Serializable {
         if (paused || gameOver || player2 == null) {
             return;
         }
+
         player2.move(dx, dy, currentLevel.getTable());
     }
 
     /**
-     * Mueve al jugador maquina segun su perfil.
+     * Mueve al jugador maquina de forma aleatoria.
      */
     public void moveMachine() {
         if (mode != GameMode.PVM || player2 == null || paused || gameOver) {
             return;
         }
+
         ensureRandom();
 
-        if (machineProfile == MachineProfile.RANDOM) {
-            moveMachineRandom();
-        } else {
-            moveMachineExpert();
-        }
-    }
+        int[][] dirs = {
+            {0, -1},  // arriba
+            {0, 1},   // abajo
+            {-1, 0},  // izquierda
+            {1, 0},   // derecha
+            {0, 0}    // quieto
+        };
 
-    /**
-     * Movimiento aleatorio de la maquina.
-     */
-    private void moveMachineRandom() {
-        int[][] dirs = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {0, 0}};
         int[] dir = dirs[random.nextInt(dirs.length)];
         player2.move(dir[0], dir[1], currentLevel.getTable());
-    }
-
-    /**
-     * Movimiento experto de la maquina.
-     * Estrategia greedy: va hacia la moneda mas cercana, luego hacia la meta.
-     * Intenta evitar enemigos cercanos.
-     */
-    private void moveMachineExpert() {
-        Coin nearest = null;
-        double minDist = Double.MAX_VALUE;
-
-        for (Coin coin : currentLevel.getCoins()) {
-            if (!coin.isCollected()) {
-                double dist = Math.abs(coin.getCol() - player2.getCol()) +
-                              Math.abs(coin.getRow() - player2.getRow());
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearest = coin;
-                }
-            }
-        }
-
-        int targetX;
-        int targetY;
-        if (nearest != null) {
-            targetX = nearest.getCol();
-            targetY = nearest.getRow();
-        } else {
-            targetX = currentLevel.getStartX();
-            targetY = currentLevel.getStartY();
-        }
-
-        int dx = Integer.signum(targetX - player2.getCol());
-        int dy = Integer.signum(targetY - player2.getRow());
-
-        boolean dangerX = false;
-        boolean dangerY = false;
-        for (Enemy e : currentLevel.getEnemies()) {
-            if (Math.abs(e.getCol() - (player2.getCol() + dx)) <= 1 &&
-                Math.abs(e.getRow() - player2.getRow()) <= 1) {
-                dangerX = true;
-            }
-            if (Math.abs(e.getCol() - player2.getCol()) <= 1 &&
-                Math.abs(e.getRow() - (player2.getRow() + dy)) <= 1) {
-                dangerY = true;
-            }
-        }
-
-        if (!dangerX) {
-            player2.move(dx, 0, currentLevel.getTable());
-        } else if (!dangerY) {
-            player2.move(0, dy, currentLevel.getTable());
-        }
     }
 
     /**
@@ -263,9 +199,12 @@ public class worldHardestGame implements Serializable {
         if (paused || gameOver) {
             return;
         }
+
         checkPlayerCollisions(player1);
+
         if (player2 != null) {
             checkPlayerCollisions(player2);
+
             if (player1.getCol() == player2.getCol() && player1.getRow() == player2.getRow()) {
                 player1.hitByEnemy();
                 player2.hitByEnemy();
@@ -285,19 +224,16 @@ public class worldHardestGame implements Serializable {
                 coin.collect(player);
             }
         }
-
         Zone zone = currentLevel.getTable().getZoneAt(player.getCol(), player.getRow());
         if (zone != null && zone.getType() == Zone.ZoneType.INTERMEDIATE) {
             player.setCheckpoint(player.getCol(), player.getRow());
         }
-
         for (Enemy enemy : currentLevel.getEnemies()) {
             if (enemy.getCol() == player.getCol() && enemy.getRow() == player.getRow()) {
                 player.hitByEnemy();
                 break;
             }
         }
-
         for (SpecialElement se : currentLevel.getSpecialElements()) {
             if (se.isActive() && se.getCol() == player.getCol() && se.getRow() == player.getRow()) {
                 if (se.getType() != SpecialElement.ElementType.WALL) {
@@ -306,7 +242,6 @@ public class worldHardestGame implements Serializable {
             }
         }
     }
-
     /**
      * Decrementa el temporizador en 1 segundo.
      *
@@ -316,11 +251,14 @@ public class worldHardestGame implements Serializable {
         if (paused || gameOver) {
             return false;
         }
+
         timeRemaining--;
+
         if (timeRemaining <= 0) {
             gameOver = true;
             return true;
         }
+
         return false;
     }
 
@@ -333,15 +271,17 @@ public class worldHardestGame implements Serializable {
         if (isPlayerComplete(player1)) {
             return true;
         }
+
         if (player2 != null && isPlayerComplete(player2)) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Verifica si un jugador individual ha completado el nivel
-     * (todas las monedas recolectadas y en zona final).
+     * Verifica si un jugador individual ha completado el nivel,
+     * todas las monedas recolectadas y en zona final.
      *
      * @param player jugador a verificar
      * @return true si completo el nivel
@@ -349,15 +289,17 @@ public class worldHardestGame implements Serializable {
     private boolean isPlayerComplete(Player player) {
         int totalCoins = currentLevel.getCoins().size();
         Zone zone = currentLevel.getTable().getZoneAt(player.getCol(), player.getRow());
+
         if (zone == null) {
             return false;
         }
+
         return player.getCoinsCollected() >= totalCoins &&
                zone.getType() == Zone.ZoneType.FINAL;
     }
 
     /**
-     * Retorna el jugador que gano (completo el nivel), o null.
+     * Retorna el jugador que gano, o null.
      *
      * @return jugador ganador o null
      */
@@ -365,9 +307,11 @@ public class worldHardestGame implements Serializable {
         if (isPlayerComplete(player1)) {
             return player1;
         }
+
         if (player2 != null && isPlayerComplete(player2)) {
             return player2;
         }
+
         return null;
     }
 
@@ -382,6 +326,7 @@ public class worldHardestGame implements Serializable {
             initLevel();
             return true;
         }
+
         return false;
     }
 
@@ -392,11 +337,13 @@ public class worldHardestGame implements Serializable {
      */
     public int coinsCollected() {
         int count = 0;
+
         for (Coin c : currentLevel.getCoins()) {
             if (c.isCollected()) {
                 count++;
             }
         }
+
         return count;
     }
 
@@ -412,18 +359,23 @@ public class worldHardestGame implements Serializable {
     /**
      * Alterna el estado de pausa del juego.
      */
-    public void togglePause() { paused = !paused; }
+    public void togglePause() {
+        paused = !paused;
+    }
 
     /**
      * Verifica si el juego esta pausado.
+     *
      * @return true si esta pausado
      */
-    public boolean isPaused() { return paused; }
+    public boolean isPaused() {
+        return paused;
+    }
 
     /**
      * Guarda el estado completo del juego en un archivo usando serializacion Java.
      *
-     * @param filename ruta al archivo de guardado (.dat)
+     * @param filename ruta al archivo de guardado .dat
      * @throws DOPOException si no se puede escribir el archivo
      */
     public void saveGame(String filename) throws DOPOException {
@@ -437,7 +389,7 @@ public class worldHardestGame implements Serializable {
     /**
      * Carga un estado de juego previamente guardado desde un archivo.
      *
-     * @param filename ruta al archivo de guardado (.dat)
+     * @param filename ruta al archivo de guardado .dat
      * @return la instancia restaurada de worldHardestGame
      * @throws DOPOException si no se puede leer el archivo o esta corrupto
      */
@@ -454,7 +406,7 @@ public class worldHardestGame implements Serializable {
     }
 
     /**
-     * Asegura que el objeto Random exista (puede ser null despues de deserializar).
+     * Asegura que el objeto Random exista.
      */
     private void ensureRandom() {
         if (random == null) {
@@ -463,38 +415,52 @@ public class worldHardestGame implements Serializable {
     }
 
     /** @return jugador 1 */
-    public Player getPlayer1() { return player1; }
+    public Player getPlayer1() {
+        return player1;
+    }
 
-    /** @return jugador 2 (null en modo un jugador) */
-    public Player getPlayer2() { return player2; }
-
+    /** @return jugador 2, null en modo un jugador */
+    public Player getPlayer2() {
+        return player2;
+    }
     /** @return nivel actual */
-    public Level getCurrentLevel() { return currentLevel; }
-
-    /** @return numero del nivel actual (1-based) */
-    public int getCurrentLevelNum() { return currentLevelIndex + 1; }
-
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+    /** @return numero del nivel actual */
+    public int getCurrentLevelNum() {
+        return currentLevelIndex + 1;
+    }
     /** @return tiempo restante en segundos */
-    public int getTimeRemaining() { return timeRemaining; }
-
+    public int getTimeRemaining() {
+        return timeRemaining;
+    }
     /** @return modalidad de juego */
-    public GameMode getMode() { return mode; }
-
+    public GameMode getMode() {
+        return mode;
+    }
     /** @return true si el juego termino */
-    public boolean isGameOver() { return gameOver; }
-
-    /** @return posicion X del jugador 1 (compatibilidad) */
-    public int getPlayerX() { return player1.getCol(); }
-
-    /** @return posicion Y del jugador 1 (compatibilidad) */
-    public int getPlayerY() { return player1.getRow(); }
-
-    /** @return muertes del jugador 1 (compatibilidad) */
-    public int getDeaths() { return player1.getDeaths(); }
-
-    /** @return filas del tablero (compatibilidad) */
-    public int getRows() { return currentLevel.getTable().getRows(); }
-
-    /** @return columnas del tablero (compatibilidad) */
-    public int getCols() { return currentLevel.getTable().getCols(); }
+    public boolean isGameOver() {
+        return gameOver;
+    }
+    /** @return posicion X del jugador 1 */
+    public int getPlayerX() {
+        return player1.getCol();
+    }
+    /** @return posicion Y del jugador 1 */
+    public int getPlayerY() {
+        return player1.getRow();
+    }
+    /** @return muertes del jugador 1 */
+    public int getDeaths() {
+        return player1.getDeaths();
+    }
+    /** @return filas del tablero */
+    public int getRows() {
+        return currentLevel.getTable().getRows();
+    }
+    /** @return columnas del tablero */
+    public int getCols() {
+        return currentLevel.getTable().getCols();
+    }
 }
